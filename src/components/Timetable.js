@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import * as actions  from "../store/actions";
 import "./Timetable.css";
 const mapStateToProps = function(state){
   return {
@@ -11,29 +12,44 @@ const mapStateToProps = function(state){
 
 const mapDispatchToProps = function (dispatch) {
   return bindActionCreators({
-    //getTopByLikes: getTopByLikes,
+    editDay: actions.editDay,
   }, dispatch)
 }
 
 
 class Timetable extends Component {
+  constructor(props){
+    super(props)
+    this.onCellChanged = this.onCellChanged.bind(this)
+  }
   componentDidMount(){
   }
-
+  onCellChanged(event){
+    let payload = {
+      taskId: event.target.dataset.taskid,
+      dayId: event.target.dataset.dayid,
+      value: event.target.value
+    }
+    this.props.editDay(payload);
+  }
   render(){
     return (
       <div className="grid">
         <div className="grid__row grid__row--header">
           <div className="grid__cell grid__cell--task-name"></div>
           {this.props.total.days.ids.map(dayId =>
-            <div className="grid__cell grid__cell--time">{this.props.total.days.data[dayId]}</div>
+            <div className="grid__cell grid__cell--time" key={dayId}>{this.props.total.days.data[dayId]}</div>
           )}
         </div>
         {this.props.tasks.ids.map(taskId =>
-          <div className="grid__row">
+          <div className="grid__row" key={taskId}>
             <div className="grid__cell grid__cell--task-name">{this.props.tasks.data[taskId].name}</div>
             {this.props.tasks.data[taskId].days.ids.map(dayId =>
-              <div className="grid__cell grid__cell--time">{this.props.tasks.data[taskId].days.data[dayId]}</div>
+              <input className="grid__cell grid__cell--time" key={dayId}
+                value={this.props.tasks.data[taskId].days.data[dayId]} 
+                data-taskid={taskId}
+                data-dayid={dayId}
+                onChange={this.onCellChanged} />
             )}
           </div>
         )}

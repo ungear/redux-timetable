@@ -39,7 +39,6 @@ const initialTotalState = {
 }
 function totalReducer(state = initialTotalState, action){
   switch (action.type){
-
     default: 
       return state
   }
@@ -65,7 +64,6 @@ const initialTasksState = {
 }
 function tasksReducer(state = initialTasksState, action){
   switch (action.type){
-
     default: 
       return state
   }

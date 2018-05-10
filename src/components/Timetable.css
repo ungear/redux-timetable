@@ -16,5 +16,6 @@
   flex: 1 1 100%;
 }
 .grid__cell--time{
+  width: 30px;
   flex: 0 0 30px;
 }
