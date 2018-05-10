@@ -1,8 +1,5 @@
 import { combineReducers } from 'redux';
-
-function test(state = {name: 'aaa'}, action){
-  return state;
-}
+import * as actions from './actions';
 /*
   totals: {
     days:{
@@ -32,7 +29,49 @@ function test(state = {name: 'aaa'}, action){
 
 
 */
+const initialTotalState = {
+  days: {
+    data: { 1: 10, 2: 6},
+    ids: [1,2],
+  },
+  tasks: {},
+  overall:0
+}
+function totalReducer(state = initialTotalState, action){
+  switch (action.type){
+
+    default: 
+      return state
+  }
+}
+
+const initialTasksState = {
+  data: { 
+    1: { 
+      name: "task number 1", 
+      days:{
+        data: {1: 3, 2: 5},
+        ids: [1, 2]
+      }
+    },
+    2: { 
+      name: "task number 2", 
+      days:{
+        data: {1: 7, 2: 12},
+        ids: [1, 2]
+      }
+    }},
+  ids: [1,2]
+}
+function tasksReducer(state = initialTasksState, action){
+  switch (action.type){
+
+    default: 
+      return state
+  }
+}
 const app = combineReducers({
-  test,
+  total: totalReducer,
+  tasks: tasksReducer,
 })
 export default app

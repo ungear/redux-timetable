@@ -1,0 +1,20 @@
+.grid{
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  font-size: 12px;
+}
+.grid__row{
+  display: flex;
+}
+.grid__cell{
+  border: 1px solid #ccc;
+  margin: 3px;
+  padding: 3px;
+}
+.grid__cell--task-name{
+  flex: 1 1 100%;
+}
+.grid__cell--time{
+  flex: 0 0 30px;
+}
