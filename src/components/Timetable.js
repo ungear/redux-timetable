@@ -38,15 +38,15 @@ class Timetable extends Component {
         <div className="grid__row grid__row--header">
           <div className="grid__cell grid__cell--task-name"></div>
           {this.props.total.days.ids.map(dayId =>
-            <div className="grid__cell grid__cell--time" key={dayId}>{this.props.total.days.data[dayId]}</div>
+            <div className="grid__cell grid__cell--time" key={dayId}>{this.props.total.days.byId[dayId]}</div>
           )}
         </div>
         {this.props.tasks.ids.map(taskId =>
           <div className="grid__row" key={taskId}>
-            <div className="grid__cell grid__cell--task-name">{this.props.tasks.data[taskId].name}</div>
-            {this.props.tasks.data[taskId].days.ids.map(dayId =>
+            <div className="grid__cell grid__cell--task-name">{this.props.tasks.byId[taskId].name}</div>
+            {this.props.tasks.byId[taskId].days.ids.map(dayId =>
               <input className="grid__cell grid__cell--time" key={dayId}
-                value={this.props.tasks.data[taskId].days.data[dayId]} 
+                value={this.props.tasks.byId[taskId].days.byId[dayId]} 
                 data-taskid={taskId}
                 data-dayid={dayId}
                 onChange={this.onCellChanged} />

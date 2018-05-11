@@ -3,21 +3,21 @@ import * as actions from './actions';
 /*
   totals: {
     days:{
-      data: {dayId1: 2, dayId2: 4},
+      byId: {dayId1: 2, dayId2: 4},
       ids: [dayId1, dayId2]
     },
     tasks: {
-      data: { taskId1: {}, taskId2: {}}
+      byId: { taskId1: {}, taskId2: {}}
       ids: [taskId1, taskId2]
     },
     overall: 999
   },
   tasks:{
-    data:{
+    byId:{
       1: {
         name: "task name",
         days:{
-          data: {dayId1: 2, dayId2: 4},
+          byId: {dayId1: 2, dayId2: 4},
           ids: [dayId1, dayId2]
         }
       },
@@ -31,7 +31,7 @@ import * as actions from './actions';
 */
 const initialTotalState = {
   days: {
-    data: { 1: 10, 2: 6},
+    byId: { 1: 10, 2: 6},
     ids: [1,2],
   },
   tasks: {},
@@ -45,18 +45,18 @@ function totalReducer(state = initialTotalState, action){
 }
 
 const initialTasksState = {
-  data: { 
+  byId: { 
     1: { 
       name: "task number 1", 
       days:{
-        data: {1: 3, 2: 5},
+        byId: {1: 3, 2: 5},
         ids: [1, 2]
       }
     },
     2: { 
       name: "task number 2", 
       days:{
-        data: {1: 7, 2: 12},
+        byId: {1: 7, 2: 12},
         ids: [1, 2]
       }
     }},
@@ -67,14 +67,14 @@ function tasksReducer(state = initialTasksState, action){
     case actions.day_edit:
       return {
         ...state,
-        data: {
-          ...state.data,
+        byId: {
+          ...state.byId,
           [action.changes.taskId]: {
-            ...state.data[action.changes.taskId],
+            ...state.byId[action.changes.taskId],
             days: {
-              ...state.data[action.changes.taskId].days,
-              data:{
-                ...state.data[action.changes.taskId].days.data,
+              ...state.byId[action.changes.taskId].days,
+              byId:{
+                ...state.byId[action.changes.taskId].days.byId,
                 [action.changes.dayId]: action.changes.value
               }
             }
