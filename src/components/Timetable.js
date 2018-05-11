@@ -17,6 +17,7 @@ const mapStateToProps = function(state){
 const mapDispatchToProps = function (dispatch) {
   return bindActionCreators({
     editDay: actions.editDay,
+    initializeTotals: actions.initializeTotals,
   }, dispatch)
 }
 
@@ -27,6 +28,7 @@ class Timetable extends Component {
     this.onCellChanged = this.onCellChanged.bind(this)
   }
   componentDidMount(){
+    this.props.initializeTotals(this.props.taskDays);
   }
   onCellChanged(event){
     let payload = {

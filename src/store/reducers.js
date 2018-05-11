@@ -36,7 +36,7 @@ import * as actions from './actions';
 */
 const initialTotalState = {
   days: {
-    byDate: { "2018-01-01": 10, "2018-01-02": 6, "2018-01-03": 3},
+    byDate: { "2018-01-01": 0, "2018-01-02": 0, "2018-01-03": 0},
     dates: ["2018-01-01","2018-01-02", "2018-01-03"],
   },
   tasks: {},
@@ -44,6 +44,20 @@ const initialTotalState = {
 }
 function totalReducer(state = initialTotalState, action){
   switch (action.type){
+    case actions.total_initialize:
+      let byDate = action.days.ids.reduce((res, taskDayId) => {
+        let day = action.days.byId[taskDayId];
+        res[day.date] = res[day.date] || 0;
+        res[day.date] += day.workload;
+        return res;
+      }, {})
+      return {
+        ...state,
+        days: {
+          ...state.days,
+          byDate
+        }
+      };
     default: 
       return state
   }
@@ -78,11 +92,11 @@ function taskDayIdsReducer(state = initialTaskDayIdsState, action){
 const initialTaskDaysByIdState = {
   1: {
     date: '2018-01-01',
-    workload: 1
+    workload: 11
   },
   2: {
     date: '2018-01-02',
-    workload: 2
+    workload: 5
   },
   3: {
     date: '2018-01-03',
