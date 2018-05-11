@@ -5,8 +5,9 @@ import * as actions  from "../store/actions";
 import "./Timetable.css";
 const mapStateToProps = function(state){
   return {
-    tasks: Object.assign({}, state.tasks),
+    tasks: state.tasks,
     total: state.total,
+    taskDays: Object.assign({}, state.taskDays),
   }
 }
 
@@ -27,8 +28,8 @@ class Timetable extends Component {
   onCellChanged(event){
     let payload = {
       taskId: event.target.dataset.taskid,
-      dayId: event.target.dataset.dayid,
-      value: event.target.value
+      taskDayId: event.target.dataset.taskdayid,
+      workload: event.target.value
     }
     this.props.editDay(payload);
   }
@@ -37,18 +38,18 @@ class Timetable extends Component {
       <div className="grid">
         <div className="grid__row grid__row--header">
           <div className="grid__cell grid__cell--task-name"></div>
-          {this.props.total.days.ids.map(dayId =>
-            <div className="grid__cell grid__cell--time" key={dayId}>{this.props.total.days.byId[dayId]}</div>
+          {this.props.total.days.dates.map(dayDate =>
+            <div className="grid__cell grid__cell--time" key={dayDate}>{this.props.total.days.byDate[dayDate]}</div>
           )}
         </div>
         {this.props.tasks.ids.map(taskId =>
           <div className="grid__row" key={taskId}>
             <div className="grid__cell grid__cell--task-name">{this.props.tasks.byId[taskId].name}</div>
-            {this.props.tasks.byId[taskId].days.ids.map(dayId =>
-              <input className="grid__cell grid__cell--time" key={dayId}
-                value={this.props.tasks.byId[taskId].days.byId[dayId]} 
+            {this.props.tasks.byId[taskId].taskDayIds.map(taskDayId =>
+              <input className="grid__cell grid__cell--time" key={taskDayId}
+                value={this.props.taskDays.byId[taskDayId].workload} 
                 data-taskid={taskId}
-                data-dayid={dayId}
+                data-taskdayid={taskDayId}
                 onChange={this.onCellChanged} />
             )}
           </div>
