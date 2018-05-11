@@ -5,7 +5,7 @@ import * as actions  from "../store/actions";
 import "./Timetable.css";
 const mapStateToProps = function(state){
   return {
-    tasks: state.tasks,
+    tasks: Object.assign({}, state.tasks),
     total: state.total,
   }
 }

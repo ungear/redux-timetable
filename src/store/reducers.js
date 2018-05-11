@@ -64,6 +64,23 @@ const initialTasksState = {
 }
 function tasksReducer(state = initialTasksState, action){
   switch (action.type){
+    case actions.day_edit:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          [action.changes.taskId]: {
+            ...state.data[action.changes.taskId],
+            days: {
+              ...state.data[action.changes.taskId].days,
+              data:{
+                ...state.data[action.changes.taskId].days.data,
+                [action.changes.dayId]: action.changes.value
+              }
+            }
+          }
+        }
+      }
     default: 
       return state
   }
