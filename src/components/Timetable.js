@@ -7,7 +7,10 @@ const mapStateToProps = function(state){
   return {
     tasks: state.tasks,
     total: state.total,
-    taskDays: Object.assign({}, state.taskDays),
+    taskDays: {
+      byId: Object.assign({}, state.taskDays.byId),
+      ids: state.taskDays.ids,
+    },
   }
 }
 
@@ -27,7 +30,6 @@ class Timetable extends Component {
   }
   onCellChanged(event){
     let payload = {
-      taskId: event.target.dataset.taskid,
       taskDayId: event.target.dataset.taskdayid,
       workload: event.target.value
     }
@@ -48,7 +50,6 @@ class Timetable extends Component {
             {this.props.tasks.byId[taskId].taskDayIds.map(taskDayId =>
               <input className="grid__cell grid__cell--time" key={taskDayId}
                 value={this.props.taskDays.byId[taskDayId].workload} 
-                data-taskid={taskId}
                 data-taskdayid={taskDayId}
                 onChange={this.onCellChanged} />
             )}

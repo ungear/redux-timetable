@@ -67,54 +67,48 @@ function tasksReducer(state = initialTasksState, action){
       return state
   }
 }
-// const initialTaskDayIdsState = [1,2,3,11,12,13]
-// function taskDaysReducer(state = initialTaskDayIdsState, action){
-//   switch (action.type){
-//     default: 
-//       return state
-//   }
-// }
-
-const initialTaskDaysState = {
-  byId:{
-    1: {
-      date: '2018-01-01',
-      workload: 1
-    },
-    2: {
-      date: '2018-01-02',
-      workload: 2
-    },
-    3: {
-      date: '2018-01-03',
-      workload: 3
-    },
-    11: {
-      date: '2018-01-01',
-      workload: 3
-    },
-    12: {
-      date: '2018-01-02',
-      workload: 2
-    },
-    13: {
-      date: '2018-01-03',
-      workload: 1
-    },
-  },
-  ids:[1,2,3,11,12,13]
+const initialTaskDayIdsState = [1,2,3,11,12,13]
+function taskDayIdsReducer(state = initialTaskDayIdsState, action){
+  switch (action.type){
+    default: 
+      return state
+  }
 }
-function taskDaysReducer(state = initialTaskDaysState, action){
+
+const initialTaskDaysByIdState = {
+  1: {
+    date: '2018-01-01',
+    workload: 1
+  },
+  2: {
+    date: '2018-01-02',
+    workload: 2
+  },
+  3: {
+    date: '2018-01-03',
+    workload: 3
+  },
+  11: {
+    date: '2018-01-01',
+    workload: 3
+  },
+  12: {
+    date: '2018-01-02',
+    workload: 2
+  },
+  13: {
+    date: '2018-01-03',
+    workload: 1
+  },
+}
+function taskDaysByIdReducer(state = initialTaskDaysByIdState, action){
   switch (action.type){
     case actions.day_edit:
       return {
         ...state,
-        byId: {
-          ...state.byId,
-          [action.changes.taskDayId]:{
-            ...state.byId[action.changes.taskDayId],
-            workload: action.changes.workload
-          }
+        [action.changes.taskDayId]:{
+          ...state[action.changes.taskDayId],
+          workload: action.changes.workload
         }
       }
     default: 
@@ -126,6 +120,9 @@ function taskDaysReducer(state = initialTaskDaysState, action){
 const app = combineReducers({
   total: totalReducer,
   tasks: tasksReducer,
-  taskDays: taskDaysReducer,
+  taskDays: combineReducers({
+    ids: taskDayIdsReducer,
+    byId: taskDaysByIdReducer,
+  }),
 })
 export default app
