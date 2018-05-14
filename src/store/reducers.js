@@ -34,15 +34,12 @@ import * as actions from './actions';
 
 
 */
-const initialTotalState = {
-  days: {
-    byDate: { "2018-01-01": 0, "2018-01-02": 0, "2018-01-03": 0},
-    dates: ["2018-01-01","2018-01-02", "2018-01-03"],
-  },
-  tasks: {},
-  overall:0
+
+const initialTotalDaysState = {
+  byDate: { "2018-01-01": 0, "2018-01-02": 0, "2018-01-03": 0},
+  dates: ["2018-01-01","2018-01-02", "2018-01-03"],
 }
-function totalReducer(state = initialTotalState, action){
+function totalDaysReducer(state = initialTotalDaysState, action){
   switch (action.type){
     case actions.total_initialize:
       let byDate = action.days.ids.reduce((res, taskDayId) => {
@@ -53,11 +50,24 @@ function totalReducer(state = initialTotalState, action){
       }, {})
       return {
         ...state,
-        days: {
-          ...state.days,
-          byDate
-        }
+        byDate
       };
+    default: 
+      return state
+  }
+}
+
+const initialTotalTasksState = {}
+function totalTasksReducer(state = initialTotalTasksState, action){
+  switch (action.type){
+    default: 
+      return state
+  }
+}
+
+const initialOverallTotalState = 0;
+function overallTotalReducer(state = initialOverallTotalState, action){
+  switch (action.type){
     default: 
       return state
   }
@@ -132,7 +142,11 @@ function taskDaysByIdReducer(state = initialTaskDaysByIdState, action){
 
 
 const app = combineReducers({
-  total: totalReducer,
+  total: combineReducers({
+    days: totalDaysReducer,
+    tasks: totalTasksReducer,
+    overall: overallTotalReducer,
+  }),
   tasks: tasksReducer,
   taskDays: combineReducers({
     ids: taskDayIdsReducer,
