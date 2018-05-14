@@ -1,6 +1,6 @@
 export const total_initialize = "total_initialize";
-export function initializeTotals(days) {
-  return { type: total_initialize, days}
+export function initializeTotals(initialData) {
+  return { type: total_initialize, initialData}
 }
 
 export const day_edit = "day_edit";

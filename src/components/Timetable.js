@@ -28,7 +28,7 @@ class Timetable extends Component {
     this.onCellChanged = this.onCellChanged.bind(this)
   }
   componentDidMount(){
-    this.props.initializeTotals(this.props.taskDays);
+    this.props.initializeTotals({taskDays: this.props.taskDays, tasks: this.props.tasks});
   }
   onCellChanged(event){
     let payload = {

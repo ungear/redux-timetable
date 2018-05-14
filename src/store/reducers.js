@@ -42,8 +42,8 @@ const initialTotalDaysState = {
 function totalDaysReducer(state = initialTotalDaysState, action){
   switch (action.type){
     case actions.total_initialize:
-      let byDate = action.days.ids.reduce((res, taskDayId) => {
-        let day = action.days.byId[taskDayId];
+      let byDate = action.initialData.taskDays.ids.reduce((res, taskDayId) => {
+        let day = action.initialData.taskDays.byId[taskDayId];
         res[day.date] = res[day.date] || 0;
         res[day.date] += day.workload;
         return res;
@@ -57,9 +57,22 @@ function totalDaysReducer(state = initialTotalDaysState, action){
   }
 }
 
-const initialTotalTasksState = {}
+const initialTotalTasksState = {
+  byId: {},
+  ids: []
+}
 function totalTasksReducer(state = initialTotalTasksState, action){
   switch (action.type){
+    case actions.total_initialize:
+      let tasks = {};
+      tasks.ids = [...action.initialData.tasks.ids];
+      tasks.byId = tasks.ids.reduce((result, taskId) => {
+        result[taskId] = 0;
+        let taskDayIds = action.initialData.tasks.byId[taskId].taskDayIds;
+        taskDayIds.forEach(tdId => result[taskId] += action.initialData.taskDays.byId[tdId].workload);
+        return result;
+      }, {})
+      return tasks;
     default: 
       return state
   }
