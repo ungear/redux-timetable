@@ -45,6 +45,7 @@ class Timetable extends Component {
           {this.props.total.days.dates.map(dayDate =>
             <div className="grid__cell grid__cell--time" key={dayDate}>{this.props.total.days.byDate[dayDate]}</div>
           )}
+          <div className="grid__cell grid__cell--task-total" >Total</div>
         </div>
         {this.props.tasks.ids.map(taskId =>
           <div className="grid__row" key={taskId}>
@@ -55,6 +56,7 @@ class Timetable extends Component {
                 data-taskdayid={taskDayId}
                 onChange={this.onCellChanged} />
             )}
+            <div className="grid__cell grid__cell--task-total">{this.props.total.tasks.byId[taskId]}</div>
           </div>
         )}
       </div>

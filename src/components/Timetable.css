@@ -1,16 +1,27 @@
 .grid{
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 400px;
   font-size: 12px;
 }
 .grid__row{
   display: flex;
 }
+.grid__row:nth-child(2n+1){
+  background: #eee;
+}
+.grid__row--header{
+  background: #ccc!important;
+}
+.grid__row--header .grid__cell{
+  border-color: transparent;
+  background: none;
+}
 .grid__cell{
   border: 1px solid #ccc;
   margin: 3px;
   padding: 3px;
+  background: #fff;
 }
 .grid__cell--task-name{
   flex: 1 1 100%;
@@ -18,4 +29,8 @@
 .grid__cell--time{
   width: 30px;
   flex: 0 0 30px;
+}
+.grid__cell--task-total{
+  width: 80px;
+  flex: 0 0 80px;
 }
