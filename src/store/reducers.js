@@ -7,7 +7,7 @@ import * as actions from './actions';
       dates: ['2018-01-01', '2018-01-02']
     },
     tasks: {
-      byId: { taskId1: {}, taskId2: {}}
+      byId: { taskId1: 1, taskId2: 2}
       ids: [taskId1, taskId2]
     },
     overall: 999
@@ -97,6 +97,11 @@ function totalTasksReducer(state = initialTotalTasksState, action){
 const initialOverallTotalState = 0;
 function overallTotalReducer(state = initialOverallTotalState, action){
   switch (action.type){
+    case actions.total_initialize:
+      return action.initialData.taskDays.ids.reduce((total, taskDayId) => 
+        total + action.initialData.taskDays.byId[taskDayId].workload, 0)
+    case actions.day_edit:
+      return state + action.changes.delta;
     default: 
       return state
   }
