@@ -35,7 +35,9 @@ class Timetable extends Component {
     let workload = parseFloat(event.target.value) || 0;
     let previousWorkload = this.props.taskDays.byId[taskDayId].workload;
     let delta = workload - previousWorkload;
+    let date = this.props.taskDays.byId[taskDayId].date;
     let payload = {
+      date,
       workload,
       taskDayId,
       delta,

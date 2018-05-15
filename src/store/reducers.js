@@ -52,6 +52,14 @@ function totalDaysReducer(state = initialTotalDaysState, action){
         ...state,
         byDate
       };
+    case actions.day_edit:
+      return {
+        ...state,
+        byDate:{
+          ...state.byDate,
+          [action.changes.date]: state.byDate[action.changes.date] + action.changes.delta
+        }
+      };
     default: 
       return state
   }
