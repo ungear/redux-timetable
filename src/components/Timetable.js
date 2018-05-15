@@ -31,9 +31,15 @@ class Timetable extends Component {
     this.props.initializeTotals({taskDays: this.props.taskDays, tasks: this.props.tasks});
   }
   onCellChanged(event){
+    let taskDayId = event.target.dataset.taskdayid;
+    let workload = parseFloat(event.target.value) || 0;
+    let previousWorkload = this.props.taskDays.byId[taskDayId].workload;
+    let delta = workload - previousWorkload;
     let payload = {
-      taskDayId: event.target.dataset.taskdayid,
-      workload: event.target.value
+      workload,
+      taskDayId,
+      delta,
+      taskId: event.target.dataset.taskid,
     }
     this.props.editDay(payload);
   }
@@ -54,6 +60,7 @@ class Timetable extends Component {
               <input className="grid__cell grid__cell--time" key={taskDayId}
                 value={this.props.taskDays.byId[taskDayId].workload} 
                 data-taskdayid={taskDayId}
+                data-taskid={taskId}
                 onChange={this.onCellChanged} />
             )}
             <div className="grid__cell grid__cell--task-total">{this.props.total.tasks.byId[taskId]}</div>

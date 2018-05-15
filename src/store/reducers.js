@@ -73,6 +73,14 @@ function totalTasksReducer(state = initialTotalTasksState, action){
         return result;
       }, {})
       return tasks;
+    case actions.day_edit:
+      return {
+        ...state,
+        byId:{
+          ...state.byId,
+          [action.changes.taskId]: state.byId[action.changes.taskId] + action.changes.delta
+        }
+      };
     default: 
       return state
   }
