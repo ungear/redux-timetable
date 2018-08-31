@@ -3,14 +3,26 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions  from "../store/actions";
 import "./Timetable.css";
+
 const mapStateToProps = function(state){
   return {
     tasks: state.tasks,
-    total: state.total,
+    //total: state.total,
     taskDays: {
       byId: Object.assign({}, state.taskDays.byId),
       ids: state.taskDays.ids,
     },
+    taskTotalById: state.tasks.ids.reduce((result, taskId) => {
+      result[taskId] = state.tasks.byId[taskId].taskDayIds
+        .reduce((total, taskDayId) => {
+          total += state.taskDays.byId[taskDayId].workload;
+          return total;
+        }, 0);
+
+        return result;
+    },{}),
+    totalOverall: 0,
+    calendarDays: state.calendarDays,
   }
 }
 
@@ -33,15 +45,9 @@ class Timetable extends Component {
   onCellChanged(event){
     let taskDayId = event.target.dataset.taskdayid;
     let workload = parseFloat(event.target.value) || 0;
-    let previousWorkload = this.props.taskDays.byId[taskDayId].workload;
-    let delta = workload - previousWorkload;
-    let date = this.props.taskDays.byId[taskDayId].date;
     let payload = {
-      date,
       workload,
       taskDayId,
-      delta,
-      taskId: event.target.dataset.taskid,
     }
     this.props.editDay(payload);
   }
@@ -50,22 +56,24 @@ class Timetable extends Component {
       <div className="grid">
         <div className="grid__row grid__row--header">
           <div className="grid__cell grid__cell--task-name"></div>
-          {this.props.total.days.dates.map(dayDate =>
-            <div className="grid__cell grid__cell--time" key={dayDate}>{this.props.total.days.byDate[dayDate]}</div>
+          {this.props.calendarDays.ids.map(cdId =>
+            <div className="grid__cell grid__cell--time" key={this.props.calendarDays.byId[cdId]}>
+              {this.props.calendarDays.byId[cdId]}
+            </div>
           )}
-          <div className="grid__cell grid__cell--task-total" >{this.props.total.overall}</div>
+          <div className="grid__cell grid__cell--task-total" >{this.props.totalOverall}</div>
         </div>
         {this.props.tasks.ids.map(taskId =>
           <div className="grid__row" key={taskId}>
             <div className="grid__cell grid__cell--task-name">{this.props.tasks.byId[taskId].name}</div>
             {this.props.tasks.byId[taskId].taskDayIds.map(taskDayId =>
-              <input className="grid__cell grid__cell--time" key={taskDayId}
-                value={this.props.taskDays.byId[taskDayId].workload} 
-                data-taskdayid={taskDayId}
-                data-taskid={taskId}
-                onChange={this.onCellChanged} />
+             <input className="grid__cell grid__cell--time" key={taskDayId}
+              value={this.props.taskDays.byId[taskDayId].workload} 
+              data-taskdayid={taskDayId}
+              data-taskid={taskId}
+              onChange={this.onCellChanged} />
             )}
-            <div className="grid__cell grid__cell--task-total">{this.props.total.tasks.byId[taskId]}</div>
+            <div className="grid__cell grid__cell--task-total">{this.props.taskTotalById[taskId]}</div>
           </div>
         )}
       </div>
