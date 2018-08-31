@@ -7,7 +7,6 @@ import "./Timetable.css";
 const mapStateToProps = function(state){
   return {
     tasks: state.tasks,
-    //total: state.total,
     taskDays: {
       byId: Object.assign({}, state.taskDays.byId),
       ids: state.taskDays.ids,
@@ -21,7 +20,10 @@ const mapStateToProps = function(state){
 
         return result;
     },{}),
-    totalOverall: 0,
+    totalOverall: state.taskDays.ids.reduce((total, taskDayId) => {
+      total += state.taskDays.byId[taskDayId].workload;
+      return total;
+    }, 0),
     calendarDays: state.calendarDays,
   }
 }
@@ -29,7 +31,6 @@ const mapStateToProps = function(state){
 const mapDispatchToProps = function (dispatch) {
   return bindActionCreators({
     editDay: actions.editDay,
-    initializeTotals: actions.initializeTotals,
   }, dispatch)
 }
 
@@ -38,9 +39,6 @@ class Timetable extends Component {
   constructor(props){
     super(props)
     this.onCellChanged = this.onCellChanged.bind(this)
-  }
-  componentDidMount(){
-    this.props.initializeTotals({taskDays: this.props.taskDays, tasks: this.props.tasks});
   }
   onCellChanged(event){
     let taskDayId = event.target.dataset.taskdayid;
