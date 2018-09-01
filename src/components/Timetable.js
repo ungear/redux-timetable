@@ -95,7 +95,6 @@ class Timetable extends Component {
                 key={taskDayId}
                 value={this.props.taskDays.byId[taskDayId].workload}
                 data-taskdayid={taskDayId}
-                data-taskid={taskId}
                 onChange={this.onCellChanged}
               />
             ))}
