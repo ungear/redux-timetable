@@ -1,36 +1,35 @@
-.grid{
+.grid {
   display: flex;
   flex-direction: column;
-  width: 400px;
+  max-width: 600px;
   font-size: 12px;
 }
-.grid__row{
+.grid__row {
   display: flex;
 }
-.grid__row:nth-child(2n+1){
+.grid__row:nth-child(2n + 1) {
   background: #eee;
 }
-.grid__row--header{
-  background: #ccc!important;
+.grid__row--header {
+  background: #ccc !important;
 }
-.grid__row--header .grid__cell{
-  border-color: transparent;
+.grid__row--header .grid__cell {
   background: none;
 }
-.grid__cell{
+.grid__cell {
   margin: 3px;
-  padding: 3px;  
+  padding: 3px;
 }
-.grid__cell--task-name{
+.grid__cell input {
+  width: 100%;
+}
+.grid__cell--task-name {
   flex: 1 1 100%;
 }
-.grid__cell--time{
-  border: 1px solid #ccc;
-  background: #fff;
-  width: 30px;
-  flex: 0 0 30px;
+.grid__cell--time {
+  flex: 0 0 100px;
 }
-.grid__cell--task-total{
+.grid__cell--task-total {
   width: 80px;
   flex: 0 0 80px;
 }
