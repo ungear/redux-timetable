@@ -1,5 +1,5 @@
-import { combineReducers } from 'redux';
-import * as actions from './actions';
+import { combineReducers } from "redux";
+import * as actions from "./actions";
 /*
   tasks:{
     byId:{
@@ -31,28 +31,29 @@ import * as actions from './actions';
 
 */
 const initialTasksState = {
-  byId: { 
-    1: { 
-      name: "task number 1", 
-      taskDayIds:[1,2,3]
+  byId: {
+    1: {
+      name: "task number 1",
+      taskDayIds: [1, 2, 3]
     },
-    2: { 
-      name: "task number 2", 
-      taskDayIds:[11,12,13]
-    }},
-  ids: [1,2]
-}
-function tasksReducer(state = initialTasksState, action){
-  switch (action.type){
-    default: 
-      return state
+    2: {
+      name: "task number 2",
+      taskDayIds: [11, 12, 13]
+    }
+  },
+  ids: [1, 2]
+};
+function tasksReducer(state = initialTasksState, action) {
+  switch (action.type) {
+    default:
+      return state;
   }
 }
-const initialTaskDayIdsState = [1,2,3,11,12,13]
-function taskDayIdsReducer(state = initialTaskDayIdsState, action){
-  switch (action.type){
-    default: 
-      return state
+const initialTaskDayIdsState = [1, 2, 3, 11, 12, 13];
+function taskDayIdsReducer(state = initialTaskDayIdsState, action) {
+  switch (action.type) {
+    default:
+      return state;
   }
 }
 
@@ -74,54 +75,53 @@ const initialTaskDaysByIdState = {
   },
   11: {
     id: 11,
-    calendarDayId: 2,
+    calendarDayId: 1,
     workload: 3
   },
   12: {
     id: 12,
-    calendarDayId: 3,
+    calendarDayId: 2,
     workload: 2
   },
   13: {
     id: 13,
-    calendarDayId: 4,
+    calendarDayId: 3,
     workload: 1
-  },
-}
-function taskDaysByIdReducer(state = initialTaskDaysByIdState, action){
-  switch (action.type){
+  }
+};
+function taskDaysByIdReducer(state = initialTaskDaysByIdState, action) {
+  switch (action.type) {
     case actions.day_edit:
       return {
         ...state,
-        [action.changes.taskDayId]:{
+        [action.changes.taskDayId]: {
           ...state[action.changes.taskDayId],
           workload: action.changes.workload
         }
-      }
-    default: 
-      return state
+      };
+    default:
+      return state;
   }
 }
 
-const initialCalendarDaysState =    {
-  byId:{
-    1: '2018-01-01',
-    2: '2018-01-02',
-    3: '2018-01-03',
+const initialCalendarDaysState = {
+  byId: {
+    1: "2018-01-01",
+    2: "2018-01-02",
+    3: "2018-01-03"
   },
-  ids: [1,2,3],
-} 
-function calendarDaysReducer(state = initialCalendarDaysState, action){
-  return state
+  ids: [1, 2, 3]
+};
+function calendarDaysReducer(state = initialCalendarDaysState, action) {
+  return state;
 }
-
 
 const app = combineReducers({
   tasks: tasksReducer,
   taskDays: combineReducers({
     ids: taskDayIdsReducer,
-    byId: taskDaysByIdReducer,
+    byId: taskDaysByIdReducer
   }),
-  calendarDays: calendarDaysReducer,
-})
-export default app
+  calendarDays: calendarDaysReducer
+});
+export default app;
