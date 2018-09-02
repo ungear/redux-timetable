@@ -26,20 +26,24 @@ const mapStateToProps = function(state) {
       total += state.taskDays.byId[taskDayId].workload;
       return total;
     }, 0),
-    calendarDays: state.calendarDays,
-    calendarDayTotalById: state.calendarDays.ids.reduce((totals, cdId) => {
-      let calendarDayTotal = state.taskDays.ids
-        .map(tdId => state.taskDays.byId[tdId])
-        .filter(taskDay => taskDay.calendarDayId === cdId)
-        .map(taskDay => taskDay.workload)
-        .reduce((total, workload) => {
-          total += workload;
-          return total;
-        }, 0);
-
-      totals[cdId] = calendarDayTotal;
-      return totals;
-    }, {})
+    calendarDays: state.taskDays.ids.reduce(
+      (result, taskDayId) => {
+        let taskDay = state.taskDays.byId[taskDayId];
+        if (!result.byDate[taskDay.date]) {
+          result.byDate[taskDay.date] = {
+            date: taskDay.date,
+            total: 0
+          };
+          result.dates.push(taskDay.date);
+        }
+        result.byDate[taskDay.date].total += taskDay.workload;
+        return result;
+      },
+      {
+        byDate: {},
+        dates: []
+      }
+    )
   };
 };
 
@@ -71,13 +75,13 @@ class Timetable extends Component {
       <div className="grid">
         <div className="grid__row grid__row--header">
           <div className="grid__cell grid__cell--task-name" />
-          {this.props.calendarDays.ids.map(cdId => (
+          {this.props.calendarDays.dates.map(cdDate => (
             <div
               className="grid__cell grid__cell--time"
-              key={this.props.calendarDays.byId[cdId]}
+              key={this.props.calendarDays.byDate[cdDate].date}
             >
-              <div>{this.props.calendarDays.byId[cdId]}</div>
-              <div>{this.props.calendarDayTotalById[cdId]}</div>
+              <div>{this.props.calendarDays.byDate[cdDate].date}</div>
+              <div>{this.props.calendarDays.byDate[cdDate].total}</div>
             </div>
           ))}
           <div className="grid__cell grid__cell--task-total">
